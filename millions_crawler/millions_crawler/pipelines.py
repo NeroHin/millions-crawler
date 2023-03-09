@@ -29,3 +29,32 @@ class DuplicateUrlPipeline:
         else:
             self.urls_seen.add(item['url'])
             return item
+        
+class SkipItemPipeline:
+    '''
+    Skip item if the url ends with .pdf, .doc, or .docx
+    '''
+    def process_item(self, item, spider):
+        if item['url'].endswith('.pdf') or item['url'].endswith('.doc') or item['url'].endswith('.docx'):
+            raise DropItem("Skip item found: %s" % item)
+        else:
+            return item
+        
+class SkipEmailPipeline:
+    '''
+    Skip item if the url starts with mailto:
+    '''
+    def process_item(self, item, spider):
+        if item['url'].startswith('mailto:'):
+            raise DropItem("Skip item found: %s" % item)
+        else:
+            return item
+        
+class CompressUrlByMD5Pipeline:
+    '''
+    Compress url by md5
+    '''
+    def process_item(self, item, spider):
+        import hashlib
+        item['url'] = hashlib.md5(item['url'].encode('utf-8')).hexdigest()
+        return item

@@ -65,6 +65,9 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    "millions_crawler.pipelines.MillionsCrawlerPipeline": 300,
    "millions_crawler.pipelines.DuplicateUrlPipeline": 400,
+   "millions_crawler.pipelines.SkipItemPipeline": 500,
+   "millions_crawler.pipelines.SkipEmailPipeline": 600,
+   "millions_crawler.pipelines.CompressUrlByMD5Pipeline": 700,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
