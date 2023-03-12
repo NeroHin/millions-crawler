@@ -12,11 +12,12 @@ from scrapy.exceptions import DropItem
 class MillionsCrawlerPipeline:
     def process_item(self, item, spider):
         
-        if item['title'] is None:
-            item['title'] = item['url'].split('/')[-1]
+        if item['url_title'] is None:
+            item['url_title'] = item['url'].split('/')[-1]
         
-        item['title'] = item['title'].replace('\n', '').replace(
+        item['url_title'] = item['url_title'].replace('\n', '').replace(
                     '\t\t', '').replace('\t', '')
+        
         
         return item
 
@@ -57,4 +58,14 @@ class CompressUrlByMD5Pipeline:
     def process_item(self, item, spider):
         import hashlib
         item['url'] = hashlib.md5(item['url'].encode('utf-8')).hexdigest()
+        return item
+    
+class TaiwanEHospitalsPipeline:
+    
+    def process_item(self, item, spider):
+        
+        item['article_department'] = item['article_department']
+        # TODO from %E6%B5%81%E6%84%9F%E8%AB%AE%E8%A9%A2 -> 流感諮詢
+        
+        
         return item

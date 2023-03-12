@@ -11,13 +11,17 @@ class MillionsCrawlerItem(scrapy.Item):
     # with normal
 
     url = scrapy.Field()
-    title = scrapy.Field()
+    url_title = scrapy.Field()
     
+    pass
+
+class TaiwanEHospitalsItem(scrapy.Item):
     # with tweh
+    article_department = scrapy.Field()
+    article_doctor = scrapy.Field()
+    article_url = scrapy.Field()
     article_no = scrapy.Field()
     article_name = scrapy.Field()
     article_question = scrapy.Field()
-    articel_answer = scrapy.Field()
-    
-    
+    article_answer = scrapy.Field()
     pass
