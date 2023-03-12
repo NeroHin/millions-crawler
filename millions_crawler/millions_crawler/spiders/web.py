@@ -14,7 +14,7 @@ class WebSpider(scrapy.Spider):
         for link in response.css('a::attr(href)').extract():
 
             items['url'] = response.urljoin(link)
-            items['title'] = response.css(
+            items['url_title'] = response.css(
                 'a[href="'+link+'"]::text').extract_first()
 
             yield items
