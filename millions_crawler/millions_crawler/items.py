@@ -7,9 +7,17 @@ import scrapy
 
 
 class MillionsCrawlerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+
+    # with normal
+
     url = scrapy.Field()
     title = scrapy.Field()
+    
+    # with tweh
+    article_no = scrapy.Field()
+    article_name = scrapy.Field()
+    article_question = scrapy.Field()
+    articel_answer = scrapy.Field()
+    
     
     pass
