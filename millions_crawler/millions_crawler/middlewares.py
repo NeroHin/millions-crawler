@@ -7,7 +7,8 @@ from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
-
+from fake_useragent import UserAgent
+from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
 
 class MillionsCrawlerSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +102,11 @@ class MillionsCrawlerDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+class MyUserAgentMiddleware(UserAgentMiddleware):
+    def __init__(self, user_agent=''):
+        self.user_agent = user_agent
+
+    def process_request(self, request, spider): 
+        ua = UserAgent()
+        request.headers['User-Agent'] = ua.random
