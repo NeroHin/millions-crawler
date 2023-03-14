@@ -23,5 +23,6 @@ class TaiwanEHospitalsItem(scrapy.Item):
     article_no = scrapy.Field()
     article_name = scrapy.Field()
     article_question = scrapy.Field()
+    article_content = scrapy.Field()
     article_answer = scrapy.Field()
     pass
