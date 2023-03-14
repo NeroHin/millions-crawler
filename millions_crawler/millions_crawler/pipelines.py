@@ -7,7 +7,10 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
-
+from hashlib import md5
+from urllib.parse import unquote
+import re
+import unicodedata as ucd
 
 class MillionsCrawlerPipeline:
     def process_item(self, item, spider):
@@ -56,16 +59,38 @@ class CompressUrlByMD5Pipeline:
     Compress url by md5
     '''
     def process_item(self, item, spider):
-        import hashlib
-        item['url'] = hashlib.md5(item['url'].encode('utf-8')).hexdigest()
+
+        item['url'] = md5(item['url'].encode('utf-8')).hexdigest()
         return item
     
 class TaiwanEHospitalsPipeline:
     
     def process_item(self, item, spider):
         
-        item['article_department'] = item['article_department']
-        # TODO from %E6%B5%81%E6%84%9F%E8%AB%AE%E8%A9%A2 -> 流感諮詢
         
+        def clean_text(text):
+            cleaned_text = ''.join(text)
+            cleaned_text = cleaned_text.replace('\r', '').replace('\n', '').replace(' ', '').replace('\\', '').replace('\u3000', '').replace('\xa0', '').replace('\t', '')
+            return cleaned_text
         
+        # Clean article_answer
+        if isinstance(item['article_answer'], list):
+            item['article_answer'] = clean_text(item['article_answer'])
+        else:
+            item['article_answer'] = clean_text(item['article_answer'])
+            
+        # Clean article_content
+        if isinstance(item['article_content'], list):
+            item['article_content'] = clean_text(item['article_content'])
+        else:
+            item['article_content'] = clean_text(item['article_content'])
+            
+        # extract the doctor name from article_doctor
+        doctors = ''.join(item['article_doctor'])
+        item['article_doctor'] = re.findall(r'／(.+?),', doctors)[0]
+        
+        # decode article_department, example %E4%B8%AD%E9%86%AB%E7%A7%91 => 中醫科
+        item['article_department'] = unquote(item['article_department'])
+
         return item
+    
