@@ -1,6 +1,7 @@
 import scrapy
 from ..items import TaiwanEHospitalsItem
 from tqdm import tqdm
+from datetime import datetime
 
 
 class TwehSpider(scrapy.Spider):
@@ -14,6 +15,14 @@ class TwehSpider(scrapy.Spider):
         self.start_page_number = 1
 
     def parse(self, response):
+
+        self.crawler.stats.inc_value('scraped_count')
+        
+        # check if an hour has passed since the last log
+        if datetime.now().minute == 0:
+            scraped_count = self.crawler.stats.get_value('scraped_count', 0)
+            self.logger.info(f'Crawled {scraped_count} websites in the last hour')
+
 
         # example the department is in HTML <div class="w3-col l4 m6 s6"><a href="/doctor/All/index.php?d_class=內科" target="_top">內　科</a></div>
 
