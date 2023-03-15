@@ -2,6 +2,7 @@ import scrapy
 from ..items import Wen8HealthItem
 import re
 from datetime import datetime
+from tqdm import tqdm
 
 
 class W8hSpider(scrapy.Spider):
@@ -16,7 +17,15 @@ class W8hSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        for page_number in range(0, self.last_page_number, 1):
+        self.crawler.stats.inc_value('scraped_count')
+        
+        # check if an hour has passed since the last log
+        if datetime.now().minute == 0:
+            scraped_count = self.crawler.stats.get_value('scraped_count', 0)
+            self.logger.info(f'Crawled {scraped_count} websites in the last hour')
+
+
+        for page_number in tqdm(range(0, self.last_page_number, 1)):
             yield scrapy.Request(url=self.qeustion_url + str(page_number), callback=self.parse_question_page)
 
     def parse_question_page(self, response):
