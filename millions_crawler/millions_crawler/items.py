@@ -37,3 +37,10 @@ class Wen8HealthItem(scrapy.Item):
     article_question = scrapy.Field()
     article_answer = scrapy.Field()
     pass
+
+class WikiItem(scrapy.Item):
+    # with wiki
+    crawl_time = scrapy.Field()
+    url = scrapy.Field()
+    title = scrapy.Field()
+    pass

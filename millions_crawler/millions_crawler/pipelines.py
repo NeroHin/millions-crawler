@@ -152,3 +152,24 @@ class Wen8HealthPipeline:
             item['article_department'] = clean_text(item['article_department'])
 
         return item
+    
+class WikiPipeline:
+    
+    
+    def __init__(self):
+        self.urls_seen = set()
+
+    def process_item(self, item, spider):
+        
+        def clean_text(text):
+            cleaned_text = ''.join(text)
+            cleaned_text = cleaned_text.replace('\r', '').replace('\n', '').replace(
+                ' ', '').replace('\\', '').replace('\u3000', '').replace('\xa0', '').replace('\t', '')
+            return cleaned_text
+        
+        if item['url'] in self.urls_seen:
+            raise DropItem("Duplicate item found: %s" % item)
+        else:
+            self.urls_seen.add(item['url'])
+            return item
+        
