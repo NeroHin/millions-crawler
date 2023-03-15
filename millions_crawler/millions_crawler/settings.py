@@ -66,8 +66,8 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    # "millions_crawler.pipelines.MillionsCrawlerPipeline": 300,
    "millions_crawler.pipelines.TaiwanEHospitalsPipeline": 300,
-   # "millions_crawler.pipelines.DuplicateUrlPipeline": 400,
-   # "millions_crawler.pipelines.SkipItemPipeline": 500,
+   "millions_crawler.pipelines.DuplicateUrlPipeline": 350,
+   # "millions_crawler.pipelines.SkipItemPipeline": 350,
    # "millions_crawler.pipelines.SkipEmailPipeline": 600,
    # "millions_crawler.pipelines.CompressUrlByMD5Pipeline": 700,
 }
@@ -97,3 +97,11 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+LOG_LEVEL = 'INFO'
+
+LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+
+LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
+
+LOG_FILE = 'crawler.log'

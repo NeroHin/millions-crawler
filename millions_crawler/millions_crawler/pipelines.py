@@ -28,10 +28,10 @@ class DuplicateUrlPipeline:
     def __init__(self):
         self.urls_seen = set()
     def process_item(self, item, spider):
-        if item['url'] in self.urls_seen:
+        if item['article_url'] in self.urls_seen:
             raise DropItem("Duplicate item found: %s" % item)
         else:
-            self.urls_seen.add(item['url'])
+            self.urls_seen.add(item['article_url'])
             return item
         
 class SkipItemPipeline:
@@ -87,7 +87,7 @@ class TaiwanEHospitalsPipeline:
             
         # extract the doctor name from article_doctor
         doctors = ''.join(item['article_doctor'])
-        item['article_doctor'] = re.findall(r'／(.+?),', doctors)[0]
+        item['article_doctor'] =re.findall(r'／([^，]+),', doctor2)[0]
         
         # decode article_department, example %E4%B8%AD%E9%86%AB%E7%A7%91 => 中醫科
         item['article_department'] = unquote(item['article_department'])
