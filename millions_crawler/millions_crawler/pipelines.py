@@ -85,12 +85,27 @@ class TaiwanEHospitalsPipeline:
         else:
             item['article_content'] = clean_text(item['article_content'])
             
+        # Clean article_name
+        if isinstance(item['article_name'], list):
+            item['article_name'] = clean_text(item['article_name'])
+        else:
+            item['article_name'] = clean_text(item['article_name'])
+            
+            
         # extract the doctor name from article_doctor
-        doctors = ''.join(item['article_doctor'])
-        item['article_doctor'] =re.findall(r'／([^，]+),', doctor2)[0]
+        item['article_doctor'] = ''.join(item['article_doctor'])
+        item['article_doctor'] =re.findall(r'／([^，]+),', item['article_doctor'])[0]
+        
+        if '／' in item['article_doctor']:
+            item['article_doctor'] = item['article_doctor'].split('／')[0]
+            
         
         # decode article_department, example %E4%B8%AD%E9%86%AB%E7%A7%91 => 中醫科
         item['article_department'] = unquote(item['article_department'])
+        
+        # remove the article_no #, example #123456 => 123456, the article_no type is list
+        item['article_no'] = ''.join(item['article_no']).replace('#', '')
+        
 
         return item
     

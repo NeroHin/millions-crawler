@@ -68,10 +68,6 @@ class TwehSpider(scrapy.Spider):
 
         for article in article_list:
 
-            items['article_url'] = response.urljoin(article)
-
-            # url is https://sp1.hso.mohw.gov.tw/doctor/All/ShowDetail.php?q_no=193985&SortBy=q_no&PageNo=1, I want to extract the 193985
-            items['article_no'] = article.split('=')[1].split('&')[0]
 
             # article_department https://sp1.hso.mohw.gov.tw/doctor/All/history.php?UrlClass=%E9%AB%94%E9%81%A9%E8%83%BD&SortBy=q_no&PageNo=13, department is %E9%AB%94%E9%81%A9%E8%83%BD
             items['article_department'] = response.url.split('=')[
@@ -84,9 +80,16 @@ class TwehSpider(scrapy.Spider):
         # when into this page, I want to extract the article information, pattern is https://sp1.hso.mohw.gov.tw/doctor/All/ShowDetail.php?q_no=193985&SortBy=q_no&PageNo=1
 
         items = response.meta['item']
+        
+        items['crawl_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        items['article_url'] = response.url
+
+        # article_no xpath like /html/body/div/div/div/div/div[2]/div[1]/div[1]/h2
+        items['article_no'] = response.xpath(
+            '/html/body/div/div/div/div/div[2]/div[1]/div[1]/h2/text()').extract()
 
         # article_name xpath like /html/body/div/div/div/div/div[2]/div[1]/div[2]/h2
-
         items['article_name'] = response.xpath(
             '/html/body/div/div/div/div/div[2]/div[1]/div[2]/h2/text()').extract()
 

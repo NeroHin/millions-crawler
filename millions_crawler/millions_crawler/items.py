@@ -17,6 +17,7 @@ class MillionsCrawlerItem(scrapy.Item):
 
 class TaiwanEHospitalsItem(scrapy.Item):
     # with tweh
+    crawl_time = scrapy.Field()
     article_department = scrapy.Field()
     article_doctor = scrapy.Field()
     article_url = scrapy.Field()
