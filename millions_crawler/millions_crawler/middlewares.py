@@ -103,7 +103,7 @@ class MillionsCrawlerDownloaderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
 
-class MyUserAgentMiddleware(UserAgentMiddleware):
+class FakeUserAgentMiddleware(UserAgentMiddleware):
     def __init__(self, user_agent=''):
         self.user_agent = user_agent
 

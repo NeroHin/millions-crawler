@@ -52,7 +52,7 @@ CONCURRENT_REQUESTS = 32
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    # "millions_crawler.middlewares.MillionsCrawlerDownloaderMiddleware": 543,
-   "millions_crawler.middlewares.MyUserAgentMiddleware": 543,
+   "millions_crawler.middlewares.FakeUserAgentMiddleware": 543,
 }
 
 # Enable or disable extensions
