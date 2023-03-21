@@ -26,7 +26,10 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 # use .env file to set the redis host and port
 REDIS_HOST = str(os.getenv("REDIS_HOST", "localhost"))
 REDIS_PORT = os.getenv("REDIS_PORT", 6379)
-REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
+
+REDIS_PARAMS = {
+    'password': str(os.getenv("REDIS_PASSWORD", None)),
+}
 
 
 #不清除Redis队列、这样可以暂停/恢复 爬取
