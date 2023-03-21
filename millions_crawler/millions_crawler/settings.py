@@ -6,12 +6,25 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import datetime
 
 BOT_NAME = "millions_crawler"
+
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
 SPIDER_MODULES = ["millions_crawler.spiders"]
 NEWSPIDER_MODULE = "millions_crawler.spiders"
 
+#确保所有的爬虫通过Redis去重
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+
+
+#不清除Redis队列、这样可以暂停/恢复 爬取
+#SCHEDULER_PERSIST = True
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "millions_crawler (+http://www.yourdomain.com)"
@@ -20,18 +33,18 @@ NEWSPIDER_MODULE = "millions_crawler.spiders"
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 100
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 100
+CONCURRENT_REQUESTS_PER_IP = 100
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -72,6 +85,7 @@ ITEM_PIPELINES = {
    # "millions_crawler.pipelines.SkipItemPipeline": 350,
    # "millions_crawler.pipelines.SkipEmailPipeline": 600,
    # "millions_crawler.pipelines.CompressUrlByMD5Pipeline": 700,
+   # 'scrapy_redis.pipelines.RedisPipeline': 302
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -100,10 +114,14 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-LOG_LEVEL = 'ERROR'
+# LOG_LEVEL = 'INFO'
 
-LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+# LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
 
-LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
+# LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
-LOG_FILE = 'crawler.log'
+# # log file with date
+# LOG_FILE = 'crawler-{}.log'.format(datetime.datetime.now().strftime('%Y-%m-%d'))
+
+DOWNLOAD_FAIL_ON_DATALOSS = False
+

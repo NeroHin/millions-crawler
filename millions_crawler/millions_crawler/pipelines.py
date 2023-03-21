@@ -167,9 +167,34 @@ class WikiPipeline:
                 ' ', '').replace('\\', '').replace('\u3000', '').replace('\xa0', '').replace('\t', '')
             return cleaned_text
         
+        if isinstance(item['url'], list):
+            item['url'] = clean_text(item['url'])
+        else:
+            item['url'] = clean_text(item['url'])
+        
+        
         if item['url'] in self.urls_seen:
             raise DropItem("Duplicate item found: %s" % item)
         else:
             self.urls_seen.add(item['url'])
             return item
         
+        # if title equal Permission error, skip the item
+        if item['title'] == 'Permission error':
+            raise DropItem("Skip item found: %s" % item)
+        else:
+            return item
+
+        # if url endwith ip address, skip the item
+        if re.match(r'.*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', item['url']):
+            raise DropItem("Skip item found: %s" % item)
+        else:
+            return item
+
+        # if url have .php, skip the item
+        if re.match(r'.*\.php', item['url']):
+            raise DropItem("Skip item found: %s" % item)
+        else:
+            return item
+
+        # 

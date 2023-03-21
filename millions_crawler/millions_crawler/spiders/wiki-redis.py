@@ -1,11 +1,15 @@
+from scrapy_redis.spiders import RedisSpider
 import scrapy
 from ..items import WikiItem
 from datetime import datetime
 
-class WikiSpider(scrapy.Spider):
+class WikiSpider(RedisSpider):
     name = "wiki"
     allowed_domains = ["en.wikipedia.org"]
-    start_urls = ["http://en.wikipedia.org/"]
+    # start_urls = ["http://en.wikipedia.org/"]
+    
+    # redis_key = "wiki:start_urls"
+    redis_key = "wiki"
     crawled_urls = set()
 
 
@@ -20,10 +24,11 @@ class WikiSpider(scrapy.Spider):
         items['title'] = response.css('title::text').get()
         items['crawl_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+        # return dict of items
         yield items
 
         link_list = response.css('a::attr(href)').extract()
         for link in link_list:
             if link.startswith('/wiki/'):
                 url = response.urljoin(link)
-                yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
+                yield scrapy.Request(url=url, callback=self.parse)

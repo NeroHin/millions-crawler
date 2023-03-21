@@ -96,5 +96,5 @@ pip install -r requirements.txt
 
 1. [GitHub | fake-useragent](https://github.com/fake-useragent/fake-useragent)
 2. [GitHub | scrapy](https://github.com/scrapy/scrapy)
-3. [【Day 20】反反爬蟲】](https://ithelp.ithome.com.tw/articles/10224979) 
+3. [【Day 20】反反爬蟲](https://ithelp.ithome.com.tw/articles/10224979) 
 4. [Documentation of Scrapy](https://docs.scrapy.org/en/latest/index.html)
