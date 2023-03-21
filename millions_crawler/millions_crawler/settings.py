@@ -7,6 +7,11 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import datetime
+from dotenv import load_dotenv
+import os
+
+# load the .env file
+load_dotenv()
 
 BOT_NAME = "millions_crawler"
 
@@ -18,9 +23,10 @@ NEWSPIDER_MODULE = "millions_crawler.spiders"
 #确保所有的爬虫通过Redis去重
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
-
-REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
+# use .env file to set the redis host and port
+REDIS_HOST = str(os.getenv("REDIS_HOST", "localhost"))
+REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 
 #不清除Redis队列、这样可以暂停/恢复 爬取
@@ -125,3 +131,6 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 DOWNLOAD_FAIL_ON_DATALOSS = False
 
+# MONGODB CONFIG
+MONGODB_URI = str(os.getenv(key="MONGODB_URI", default="mongodb://localhost:27017/"))
+MONGODB_DB_NAME = str(os.getenv(key="MONGODB_DB_NAME", default="millions"))
