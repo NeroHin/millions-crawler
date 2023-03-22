@@ -24,8 +24,8 @@ NEWSPIDER_MODULE = "millions_crawler.spiders"
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
 # use .env file to set the redis host and port
-REDIS_HOST = str(os.getenv("REDIS_HOST", "localhost"))
-REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+REDIS_HOST = str(os.getenv("REDIS_HOST"))
+REDIS_PORT = os.getenv("REDIS_PORT")
 
 REDIS_PARAMS = {
     'password': str(os.getenv("REDIS_PASSWORD", None)),

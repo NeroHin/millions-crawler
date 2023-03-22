@@ -4,7 +4,7 @@
 touch .env
 
 # insert content into .env file
-echo "REDIS_ADDRESS=" >> .env
+echo "REDIS_HOST=" >> .env
 echo "REDIS_PORT=" >> .env
 echo "REDIS_PASSWORD=" >> .env
 echo "MONGODB_URI=" >> .env
