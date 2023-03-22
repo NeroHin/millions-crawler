@@ -15,6 +15,13 @@ This the NCKU course WEB RESOURCE DISCOVERY AND EXPLOITATION homework III, targe
 
 # Project architecture
 
+### Distributed architecture
+
+![distributed_architecture](./image/scrapy-redis.png)
+
+### Each spider
+![spider](./image/Scrapy_architecture.png)
+
 ### Spider with [台灣 E 院](https://sp1.hso.mohw.gov.tw/doctor/Index1.php)
 
 ![tweh_parse_flowchat](./image/%E8%87%BA%E7%81%A3%20E%20%E9%99%A2%E7%88%AC%E8%9F%B2%E7%B5%90%E6%A7%8B.png)
