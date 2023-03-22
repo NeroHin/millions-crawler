@@ -84,7 +84,7 @@ DOWNLOADER_MIDDLEWARES = {
 0. create a .env file
 
 ```bash
-./create_env.sh
+bash create_env.sh
 ```
 
 1. Install [Redis](https://redis.io/)
