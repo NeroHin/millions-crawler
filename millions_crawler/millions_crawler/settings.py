@@ -32,8 +32,8 @@ REDIS_PARAMS = {
 }
 
 
-#不清除Redis队列、这样可以暂停/恢复 爬取
-#SCHEDULER_PERSIST = True
+# 允許暫停,redis請求記錄不會丟失(重啓爬蟲不會重頭爬取已爬過的頁面)
+SCHEDULER_PERSIST = True
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "millions_crawler (+http://www.yourdomain.com)"
@@ -42,15 +42,15 @@ REDIS_PARAMS = {
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 100
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0
-# The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 100
-CONCURRENT_REQUESTS_PER_IP = 100
+# DOWNLOAD_DELAY = 0
+# # The download delay setting will honor only one of:
+# CONCURRENT_REQUESTS_PER_DOMAIN = 100
+# CONCURRENT_REQUESTS_PER_IP = 100
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
@@ -66,9 +66,10 @@ COOKIES_ENABLED = False
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "millions_crawler.middlewares.MillionsCrawlerSpiderMiddleware": 543,
-#}
+SPIDER_MIDDLEWARES = {
+   # "millions_crawler.middlewares.MillionsCrawlerSpiderMiddleware": 543,
+   'scrapy.spidermiddlewares.offsite.OffsiteMiddleware': None
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -94,7 +95,8 @@ ITEM_PIPELINES = {
    # "millions_crawler.pipelines.SkipItemPipeline": 350,
    # "millions_crawler.pipelines.SkipEmailPipeline": 600,
    # "millions_crawler.pipelines.CompressUrlByMD5Pipeline": 700,
-   # 'scrapy_redis.pipelines.RedisPipeline': 302
+   'scrapy_redis.pipelines.RedisPipeline': 400,
+   'millions_crawler.pipelines.MongoDBPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -123,17 +125,17 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-# LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'INFO'
 
-# LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
 
-# LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
+LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
-# # log file with date
-# LOG_FILE = 'crawler-{}.log'.format(datetime.datetime.now().strftime('%Y-%m-%d'))
+# log file with date
+LOG_FILE = 'crawler-{}.log'.format(datetime.datetime.now().strftime('%Y-%m-%d'))
 
 DOWNLOAD_FAIL_ON_DATALOSS = False
 
 # MONGODB CONFIG
-MONGODB_URI = str(os.getenv(key="MONGODB_URI", default="mongodb://localhost:27017/"))
-MONGODB_DB_NAME = str(os.getenv(key="MONGODB_DB_NAME", default="millions"))
+MONGODB_URI = str(os.getenv(key="MONGODB_URI"))
+MONGODB_DATABASE = str(os.getenv(key="MONGODB_DB_NAME"))
