@@ -13,14 +13,14 @@ class WikiSpider(RedisSpider):
     
     # redis_key = "wiki:start_urls"
     redis_key = "wiki"
-    # crawled_urls = set()
+    crawled_urls = set()
 
 
     def parse(self, response):
-        # if response.url in self.crawled_urls:
-        #     return
+        if response.url in self.crawled_urls:
+            return
 
-        # self.crawled_urls.add(response.url)
+        self.crawled_urls.add(response.url)
 
         items = WikiItem()
         items['url'] = response.url
