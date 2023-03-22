@@ -81,6 +81,37 @@ DOWNLOADER_MIDDLEWARES = {
 
 # How to use
 
+0. create a .env file
+
+```bash
+./create_env.sh
+```
+
+1. Install [Redis](https://redis.io/)
+
+```bash
+sudo apt-get install redis-server
+```
+
+2. Install [MongoDB](https://www.mongodb.com/)
+
+```bash
+sudo apt-get install mongodb
+```
+
+3. Run Redis
+
+```bash
+redis-server
+```
+4. run MongoDB
+
+```bash
+sudo service mongod start
+```
+
+5. Run spider
+
 ```bash
 cd millions-crawler
 scrapy crawl [$spider_name] # $spider_name = tweh, w8h, wiki
@@ -98,3 +129,7 @@ pip install -r requirements.txt
 2. [GitHub | scrapy](https://github.com/scrapy/scrapy)
 3. [【Day 20】反反爬蟲](https://ithelp.ithome.com.tw/articles/10224979) 
 4. [Documentation of Scrapy](https://docs.scrapy.org/en/latest/index.html)
+5. [解决 Redis 之 MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist o...](https://www.jianshu.com/p/3aaf21dd34d6)
+6. [Ubuntu Linux 安裝、設定 Redis 資料庫教學與範例](https://officeguide.cc/ubuntu-linux-redis-database-installation-configuration-tutorial-examples/)
+7. [如何連線到遠端的 Linux + MongoDB 伺服器？](https://magiclen.org/mongodb-remote)
+8. [Scrapy-redis 之終結篇](https://www.twblogs.net/a/5ef9b649952deac88f79c670)
