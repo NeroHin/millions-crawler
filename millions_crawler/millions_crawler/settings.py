@@ -88,15 +88,17 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    # "millions_crawler.pipelines.MillionsCrawlerPipeline": 300,
-   # "millions_crawler.pipelines.TaiwanEHospitalsPipeline": 300,
+   "millions_crawler.pipelines.TaiwanEHospitalsPipeline": 300,
    # "millions_crawler.pipelines.Wen8HealthPipeline": 300,
-   "millions_crawler.pipelines.WikiPipeline": 300,
+   # "millions_crawler.pipelines.WikiPipeline": 300,
    # "millions_crawler.pipelines.DuplicateUrlPipeline": 350,
    # "millions_crawler.pipelines.SkipItemPipeline": 350,
    # "millions_crawler.pipelines.SkipEmailPipeline": 600,
    # "millions_crawler.pipelines.CompressUrlByMD5Pipeline": 700,
    'scrapy_redis.pipelines.RedisPipeline': 400,
-   'millions_crawler.pipelines.MongoDBPipeline': 300,
+   # 'millions_crawler.pipelines.WikiMongoDBPipeline': 300,
+   'millions_crawler.pipelines.TWEHMongoDBPipeline': 300,
+   
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
