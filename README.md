@@ -68,11 +68,22 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Result
 
+## single spider in 2023/03/21
+
 | Spider | Total Page | Total Time (hrs) | Page per Hour |
 | :----: | :--------: | :--------------: | :-----------: |
 |  tweh  |  152,958   |       1.3        |    117,409    |
 |  w8h   |   4,759    |       0.1        |    32,203     |
-|  wiki  | 14,487,706 |       24.5       |    592,342    |
+|  wiki*  | 14,487,706 |       24.5       |    592,342    |
+
+* when i crawl wiki, if have a memory leak problem, so i stop it. The problem is is too many duplicate page, in the memory, it will cause memory leak.
+
+## distributed spider (4 spider) in 2023/03/24
+| Spider | Total Page | Total Time (hrs) | Page per Hour |
+| :----: | :--------: | :--------------: | :-----------: |
+|  tweh  |  152,958   |       1.3        |    117,409    |
+|  w8h   |   4,759    |       0.1        |    32,203     |
+|  wiki*  | 14,487,706 |       24.5       |    592,342    |
 
 ### tweh
 
