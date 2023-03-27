@@ -14,6 +14,7 @@ import unicodedata as ucd
 import pymongo
 from .items import MillionsCrawlerItem
 
+
 class MillionsCrawlerPipeline:
     def process_item(self, item, spider):
 
@@ -114,9 +115,10 @@ class TaiwanEHospitalsPipeline:
 
         # remove the article_no #, example #123456 => 123456, the article_no type is list
         item['article_no'] = ''.join(item['article_no']).replace('#', '')
-        
+
         # use md5 to compress the url
-        item['article_url'] = md5(item['article_url'].encode('utf-8')).hexdigest()
+        item['article_url'] = md5(
+            item['article_url'].encode('utf-8')).hexdigest()
 
         return item
 
@@ -155,30 +157,34 @@ class Wen8HealthPipeline:
         else:
             item['article_department'] = clean_text(item['article_department'])
 
+        # use md5 to compress the url
+        item['article_url'] = md5(
+            item['article_url'].encode('utf-8')).hexdigest()
+
         return item
-    
+
+
 class WikiPipeline:
-    
+
     def __init__(self):
         self.urls_seen = set()
 
     def process_item(self, item, spider):
-        
+
         def clean_text(text):
             cleaned_text = ''.join(text)
             cleaned_text = cleaned_text.replace('\r', '').replace('\n', '').replace(
                 ' ', '').replace('\\', '').replace('\u3000', '').replace('\xa0', '').replace('\t', '')
             return cleaned_text
-        
+
         if isinstance(item['url'], list):
             item['url'] = clean_text(item['url'])
         else:
             item['url'] = clean_text(item['url'])
-        
-        
+
         if item['url'] in self.urls_seen:
             raise DropItem("Duplicate item found: %s" % item)
-        
+
         # if title equal Permission error, skip the item
         if item['title'] == 'Permission error':
             raise DropItem("Skip item found: %s" % item)
@@ -190,12 +196,13 @@ class WikiPipeline:
         # if url have .php, skip the item
         if re.match(r'.*\.php', item['url']):
             raise DropItem("Skip item found: %s" % item)
-        
+
         # use md5 to compress the url
         item['url'] = md5(item['url'].encode('utf-8')).hexdigest()
-        
+
         self.urls_seen.add(item['url'])
         return item
+
 
 class WikiMongoDBPipeline:
 
@@ -204,7 +211,8 @@ class WikiMongoDBPipeline:
     def __init__(self, mongodb_uri, mongodb_db):
         self.mongodb_uri = mongodb_uri
         self.mongodb_db = mongodb_db
-        if not self.mongodb_uri: sys.exit("You need to provide a Connection String.")
+        if not self.mongodb_uri:
+            sys.exit("You need to provide a Connection String.")
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -226,7 +234,8 @@ class WikiMongoDBPipeline:
         data = dict(item)
         self.db[self.collection].insert_one(data)
         return item
-    
+
+
 class TWEHMongoDBPipeline:
 
     collection = 'tweh_items'
@@ -234,7 +243,8 @@ class TWEHMongoDBPipeline:
     def __init__(self, mongodb_uri, mongodb_db):
         self.mongodb_uri = mongodb_uri
         self.mongodb_db = mongodb_db
-        if not self.mongodb_uri: sys.exit("You need to provide a Connection String.")
+        if not self.mongodb_uri:
+            sys.exit("You need to provide a Connection String.")
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -256,7 +266,8 @@ class TWEHMongoDBPipeline:
         data = dict(item)
         self.db[self.collection].insert_one(data)
         return item
-    
+
+
 class WEN8MongoDBPipeline:
 
     collection = 'w8h_items'
@@ -264,7 +275,8 @@ class WEN8MongoDBPipeline:
     def __init__(self, mongodb_uri, mongodb_db):
         self.mongodb_uri = mongodb_uri
         self.mongodb_db = mongodb_db
-        if not self.mongodb_uri: sys.exit("You need to provide a Connection String.")
+        if not self.mongodb_uri:
+            sys.exit("You need to provide a Connection String.")
 
     @classmethod
     def from_crawler(cls, crawler):
