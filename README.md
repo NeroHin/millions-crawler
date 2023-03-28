@@ -85,17 +85,6 @@ DOWNLOADER_MIDDLEWARES = {
 |  w8h   |   4,921    |       0.16        |    -     |
 |  wiki*  | 4,731,249 |       43.2       |    109,492    |
 
-### tweh
-
-![tweh](./image/result_tweh.png)
-
-### w8h
-
-![w8h](./image/result_w8h.png)
-
-### wiki
-
-![wiki](./image/result_wiki.png)
 
 # How to use
 
