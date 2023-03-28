@@ -74,16 +74,16 @@ DOWNLOADER_MIDDLEWARES = {
 | :----: | :--------: | :--------------: | :-----------: |
 |  tweh  |  152,958   |       1.3        |    117,409    |
 |  w8h   |   4,759    |       0.1        |    32,203     |
-|  wiki*  | 14,487,706 |       24.5       |    592,342    |
+|  wiki*  | 13,000,320 |       43       |    30,240    |
 
 * when i crawl wiki, if have a memory leak problem, so i stop it. The problem is is too many duplicate page, in the memory, it will cause memory leak.
 
 ## distributed spider (4 spider) in 2023/03/24
 | Spider | Total Page | Total Time (hrs) | Page per Hour |
 | :----: | :--------: | :--------------: | :-----------: |
-|  tweh  |  152,958   |       1.3        |    117,409    |
-|  w8h   |   4,759    |       0.1        |    32,203     |
-|  wiki*  | 14,487,706 |       24.5       |    592,342    |
+|  tweh  |  153,288   |       0.52       |    -    |
+|  w8h   |   4,921    |       0.16        |    -     |
+|  wiki*  | 4,731,249 |       43.2       |    109,492    |
 
 ### tweh
 
