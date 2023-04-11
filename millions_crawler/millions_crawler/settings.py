@@ -15,13 +15,13 @@ load_dotenv()
 
 BOT_NAME = "millions_crawler"
 
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
 SPIDER_MODULES = ["millions_crawler.spiders"]
 NEWSPIDER_MODULE = "millions_crawler.spiders"
 
 #确保所有的爬虫通过Redis去重
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
 # use .env file to set the redis host and port
 REDIS_HOST = str(os.getenv("REDIS_HOST"))
@@ -129,14 +129,14 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-LOG_LEVEL = 'INFO'
+# LOG_LEVEL = 'INFO'
 
-LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+# LOG_FORMAT = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
 
-LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
+# LOG_DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
-# log file with date
-LOG_FILE = 'crawler-{}.log'.format(datetime.datetime.now().strftime('%Y-%m-%d'))
+# # log file with date
+# LOG_FILE = 'crawler-{}.log'.format(datetime.datetime.now().strftime('%Y-%m-%d'))
 
 DOWNLOAD_FAIL_ON_DATALOSS = False
 
