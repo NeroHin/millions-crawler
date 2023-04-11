@@ -21,6 +21,9 @@ class KingnetSpider(scrapy.Spider):
         # extract <h6 class="media-heading"> url
         article_url_list = response.css('h6.media-heading a::attr(href)').extract()
         
+    # TODO 目前有發現可以透過 API 取得文章內容
+    # https://www.kingnet.com.tw/ajax/selectInquiryList?sectionId=1&keyword=&inquiryStatus=Y&dataIndex=2&dataCnt=10
+    # *花點時間來研究一下 API 的使用方式
         
        
         
