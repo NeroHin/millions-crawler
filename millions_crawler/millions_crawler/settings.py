@@ -89,17 +89,18 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    # "millions_crawler.pipelines.MillionsCrawlerPipeline": 300,
    # "millions_crawler.pipelines.TaiwanEHospitalsPipeline": 300,
-   "millions_crawler.pipelines.Wen8HealthPipeline": 300,
+   # "millions_crawler.pipelines.Wen8HealthPipeline": 300,
    # "millions_crawler.pipelines.WikiPipeline": 300,
    # "millions_crawler.pipelines.DuplicateUrlPipeline": 350,
    # "millions_crawler.pipelines.SkipItemPipeline": 350,
    # "millions_crawler.pipelines.SkipEmailPipeline": 600,
    # "millions_crawler.pipelines.CompressUrlByMD5Pipeline": 700,
-   'scrapy_redis.pipelines.RedisPipeline': 400,
+   # 'scrapy_redis.pipelines.RedisPipeline': 400,
    # 'millions_crawler.pipelines.WikiMongoDBPipeline': 300,
    # 'millions_crawler.pipelines.TWEHMongoDBPipeline': 300,
-   'millions_crawler.pipelines.WEN8MongoDBPipeline': 300,
-   
+   # 'millions_crawler.pipelines.WEN8MongoDBPipeline': 300,
+   'millions_crawler.pipelines.KINGNETMongoDBPipeline': 300,
+   "millions_crawler.pipelines.KINGNETPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

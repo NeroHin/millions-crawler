@@ -44,3 +44,14 @@ class WikiItem(scrapy.Item):
     url = scrapy.Field()
     title = scrapy.Field()
     pass
+
+class KingnetItem(scrapy.Item):
+    # with kingnet
+    crawl_time = scrapy.Field()
+    article_department = scrapy.Field()
+    article_doctor = scrapy.Field()
+    article_url = scrapy.Field()
+    article_no = scrapy.Field()
+    article_question = scrapy.Field()
+    article_answer = scrapy.Field()
+    pass
