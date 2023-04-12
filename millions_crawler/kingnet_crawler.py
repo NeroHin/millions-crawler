@@ -5,6 +5,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 from dotenv import load_dotenv
+import os
 
 # Function to remove HTML tags and unwanted characters
 def clean_text(text):
