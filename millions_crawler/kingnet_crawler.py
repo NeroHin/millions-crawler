@@ -7,36 +7,7 @@ from tqdm import tqdm
 from dotenv import load_dotenv
 import os
 
-# Function to remove HTML tags and unwanted characters
-def clean_text(text):
-    # Remove <br> tags and their variations
-    cleaned_text = text.replace("<br>", "").replace("<br/>", "").replace("<br />", "")
-    
-    # Remove HTML tags
-    cleaned_text = re.sub(r"<[^>]*>", "", cleaned_text)
-    
-    # Remove <span> tags
-    cleaned_text = re.sub(r"<span[^>]*>", "", cleaned_text)
-    cleaned_text = cleaned_text.replace("</span>", "")
-    
-    # Remove <font> tags
-    cleaned_text = re.sub(r"<font[^>]*>", "", cleaned_text)
-    cleaned_text = cleaned_text.replace("</font>", "")
-    
-    # Remove <p> tags
-    cleaned_text = re.sub(r"<p[^>]*>", "", cleaned_text)
-    cleaned_text = cleaned_text.replace("</p>", "")
-    
-    # Remove \n\d+ occurrences
-    cleaned_text = re.sub(r"\n\d+", "", cleaned_text)
-    
-    # Remove escape sequences and white spaces
-    cleaned_text = cleaned_text.replace("\\r", "").replace("\\n", "").replace("\\b", "").replace("\n", "").replace("\b", "").replace("\r", "").replace("\t", "").replace("  ", "")
-    
-    # remove  www.kidneydrfang.com
-    cleaned_text = cleaned_text.replace("www.kidneydrfang.com", "")
-    
-    return cleaned_text
+load_dotenv()
 
 
 # MongoDB connection string
@@ -62,12 +33,52 @@ params = {
     'dataCnt': 30
 }
 
+# Function to remove HTML tags and unwanted characters
+
+
+def clean_text(text):
+    # Remove <br> tags and their variations
+    cleaned_text = text.replace("<br>", "").replace(
+        "<br/>", "").replace("<br />", "")
+
+    # Remove HTML tags
+    cleaned_text = re.sub(r"<[^>]*>", "", cleaned_text)
+
+    # Remove <span> tags
+    cleaned_text = re.sub(r"<span[^>]*>", "", cleaned_text)
+    cleaned_text = cleaned_text.replace("</span>", "")
+
+    # Remove <font> tags
+    cleaned_text = re.sub(r"<font[^>]*>", "", cleaned_text)
+    cleaned_text = cleaned_text.replace("</font>", "")
+
+    # Remove <p> tags
+    cleaned_text = re.sub(r"<p[^>]*>", "", cleaned_text)
+    cleaned_text = cleaned_text.replace("</p>", "")
+
+    # Remove \n\d+ occurrences
+    cleaned_text = re.sub(r"\n\d+", "", cleaned_text)
+
+    # Remove escape sequences and white spaces
+    cleaned_text = cleaned_text.replace("\\r", "").replace("\\n", "").replace("\\b", "").replace(
+        "\n", "").replace("\b", "").replace("\r", "").replace("\t", "").replace("  ", "")
+
+    # remove  www.kidneydrfang.com
+    cleaned_text = cleaned_text.replace("www.kidneydrfang.com", "")
+
+    return cleaned_text
+
 # Function to map inquiryId and reply
+
+
 def map_reply_to_inquiry(inquiry_list, discuss_list):
-    reply_mapping = {item['replyId']: unquote(item['reply']) for item in discuss_list}
+    reply_mapping = {item['replyId']: unquote(
+        item['reply']) for item in discuss_list}
     for inquiry in inquiry_list:
         inquiry_id = inquiry['inquiryId']
         inquiry['reply'] = reply_mapping.get(inquiry_id, '')
+
+
 def fetch_and_save_data(section_id):
     data_index = 0
 
@@ -78,14 +89,16 @@ def fetch_and_save_data(section_id):
 
         # Check for a valid response
         if response.status_code != 200:
-            print(f"Failed to fetch data for sectionId {section_id}, dataIndex {data_index}.")
+            print(
+                f"Failed to fetch data for sectionId {section_id}, dataIndex {data_index}.")
             break
 
         data = response.json()
 
         # Check if there is data in the response
         if not data or not data["inquiryList"]:
-            print(f"No more data for sectionId {section_id}, dataIndex {data_index}.")
+            print(
+                f"No more data for sectionId {section_id}, dataIndex {data_index}.")
             break
 
         inquiry_list = data["inquiryList"]
@@ -119,12 +132,14 @@ def fetch_and_save_data(section_id):
         # Increment the data index for the next request
         data_index += 1
 
+
 # Define the number of threads to use
 num_threads = 12
 
 # Iterate over sectionIds from 1 to 126 using ThreadPoolExecutor
 with ThreadPoolExecutor(max_workers=num_threads) as executor:
-    futures = {executor.submit(fetch_and_save_data, section_id): section_id for section_id in range(1, 127)}
+    futures = {executor.submit(
+        fetch_and_save_data, section_id): section_id for section_id in range(1, 127)}
 
     for future in tqdm(as_completed(futures)):
         section = futures[future]
