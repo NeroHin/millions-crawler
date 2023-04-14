@@ -99,8 +99,11 @@ ITEM_PIPELINES = {
    # 'millions_crawler.pipelines.WikiMongoDBPipeline': 300,
    # 'millions_crawler.pipelines.TWEHMongoDBPipeline': 300,
    # 'millions_crawler.pipelines.WEN8MongoDBPipeline': 300,
-   'millions_crawler.pipelines.KINGNETMongoDBPipeline': 300,
-   "millions_crawler.pipelines.KINGNETPipeline": 300,
+   # 'millions_crawler.pipelines.KINGNETMongoDBPipeline': 300,
+   # "millions_crawler.pipelines.KINGNETPipeline": 300,
+   "millions_crawler.pipelines.FamilyDoctorPipeline": 300,
+   "millions_crawler.pipelines.FamilyDoctorMongoDBPipeline": 300,
+
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

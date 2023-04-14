@@ -13,6 +13,7 @@ import re
 import unicodedata as ucd
 import pymongo
 from .items import MillionsCrawlerItem
+import requests
 
 
 class MillionsCrawlerPipeline:
@@ -163,6 +164,7 @@ class Wen8HealthPipeline:
 
         return item
 
+
 class KINGNETPipeline:
 
     def process_item(self, item, spider):
@@ -200,6 +202,51 @@ class KINGNETPipeline:
         # use md5 to compress the url
         item['article_url'] = md5(
             item['article_url'].encode('utf-8')).hexdigest()
+
+        return item
+
+class FamilyDoctorPipeline:
+
+    def process_item(self, item, spider):
+
+        def clean_text(text):
+            if text is None:
+                return ''
+            cleaned_text = ''.join(text)
+            cleaned_text = cleaned_text.replace('\r', '').replace('\n', '').replace(
+                ' ', '').replace('\\', '').replace('\u3000', '').replace('\xa0', '').replace('\t', '').replace(' ', '')
+            return cleaned_text
+
+        # Clean article_answer
+        if isinstance(item['article_answer'], list):
+            item['article_answer'] = clean_text(item['article_answer'])
+        else:
+            item['article_answer'] = clean_text(item['article_answer'])
+
+        # Clean article_question
+        if isinstance(item['article_question'], list):
+            item['article_question'] = clean_text(item['article_question'])
+        else:
+            item['article_question'] = clean_text(item['article_question'])
+
+        # Clean article_doctor
+        if isinstance(item['article_doctor'], list):
+            item['article_doctor'] = clean_text(item['article_doctor'])
+        else:
+            item['article_doctor'] = clean_text(item['article_doctor'])
+
+        # convert article_question from simplified chinese to traditional chinese by https://api.zhconvert.org API
+        # e.g. https://api.zhconvert.org/convert?converter=Taiwan&text=%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%EF%BC%81%E6%B2%A1%E6%B3%95%E5%9C%A8%E8%A7%86%E9%A2%91%E8%81%8A%E5%A4%A9%E6%97%B6%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91
+        # This return 
+        question = requests.get('https://api.zhconvert.org/convert?converter=Taiwan&text=' + item['article_question'])
+        print(question)
+        item['article_question'] = question.json()['data']['text']
+        
+        # convert article_answer from simplified chinese to traditional chinese by https://api.zhconvert.org API
+        
+        answer = requests.get('https://api.zhconvert.org/convert?converter=Taiwan&text=' + item['article_answer'])
+        item['article_answer'] = answer.json()['data']['text']
+
 
         return item
 
@@ -339,9 +386,41 @@ class WEN8MongoDBPipeline:
         self.db[self.collection].insert_one(data)
         return item
 
+
 class KINGNETMongoDBPipeline:
 
     collection = 'KINGNET_items'
+
+    def __init__(self, mongodb_uri, mongodb_db):
+        self.mongodb_uri = mongodb_uri
+        self.mongodb_db = mongodb_db
+        if not self.mongodb_uri:
+            sys.exit("You need to provide a Connection String.")
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongodb_uri=crawler.settings.get('MONGODB_URI'),
+            mongodb_db=crawler.settings.get('MONGODB_DATABASE', 'items')
+        )
+
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient(self.mongodb_uri)
+        self.db = self.client[self.mongodb_db]
+        # Start with a clean database
+        # self.db[self.collection].delete_many({})
+
+    def close_spider(self, spider):
+        self.client.close()
+
+    def process_item(self, item, spider):
+        data = dict(item)
+        self.db[self.collection].insert_one(data)
+        return item
+
+class FamilyDoctorMongoDBPipeline:
+
+    collection = 'FamilyDoctor_items'
 
     def __init__(self, mongodb_uri, mongodb_db):
         self.mongodb_uri = mongodb_uri

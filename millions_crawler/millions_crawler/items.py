@@ -55,3 +55,14 @@ class KingnetItem(scrapy.Item):
     article_question = scrapy.Field()
     article_answer = scrapy.Field()
     pass
+
+class FamilyDoctorItem(scrapy.Item):
+    # with familydoctor
+    crawl_time = scrapy.Field()
+    article_question = scrapy.Field()
+    article_answer = scrapy.Field()
+    article_url = scrapy.Field()
+    article_doctor = scrapy.Field()
+
+
+    pass
