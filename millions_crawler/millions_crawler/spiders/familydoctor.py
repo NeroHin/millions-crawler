@@ -23,6 +23,8 @@ class FamilyDoctorSpider(scrapy.Spider):
         items['article_doctor'] = response.xpath('/html/body/div[4]/div/div[1]/div[2]/ul/li/div[2]/dl/dt/a[1]/p/text()').get()
         items['article_url'] = response.url
         
-        yield items
+        # Only yield the item if all required fields are not None
+        if all([items['article_question'], items['article_answer'], items['article_doctor']]):
+            yield items
 
 
