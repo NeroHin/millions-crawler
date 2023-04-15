@@ -13,7 +13,8 @@ import re
 import unicodedata as ucd
 import pymongo
 from .items import MillionsCrawlerItem
-import requests
+import opencc
+
 
 
 class MillionsCrawlerPipeline:
@@ -205,7 +206,11 @@ class KINGNETPipeline:
 
         return item
 
+
 class FamilyDoctorPipeline:
+
+    def __init__(self):
+        self.converter = opencc.OpenCC('s2twp')
 
     def process_item(self, item, spider):
 
@@ -235,20 +240,14 @@ class FamilyDoctorPipeline:
         else:
             item['article_doctor'] = clean_text(item['article_doctor'])
 
-        # convert article_question from simplified chinese to traditional chinese by https://api.zhconvert.org API
-        # e.g. https://api.zhconvert.org/convert?converter=Taiwan&text=%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%EF%BC%81%E6%B2%A1%E6%B3%95%E5%9C%A8%E8%A7%86%E9%A2%91%E8%81%8A%E5%A4%A9%E6%97%B6%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91
-        # This return 
-        question = requests.get('https://api.zhconvert.org/convert?converter=Taiwan&text=' + item['article_question'])
-        print(question)
-        item['article_question'] = question.json()['data']['text']
-        
-        # convert article_answer from simplified chinese to traditional chinese by https://api.zhconvert.org API
-        
-        answer = requests.get('https://api.zhconvert.org/convert?converter=Taiwan&text=' + item['article_answer'])
-        item['article_answer'] = answer.json()['data']['text']
+        # Convert article_question from simplified chinese to traditional chinese using OpenCC
+        item['article_question'] = self.converter.convert(item['article_question'])
 
+        # Convert article_answer from simplified chinese to traditional chinese using OpenCC
+        item['article_answer'] = self.converter.convert(item['article_answer'])
 
         return item
+
 
 
 class WikiPipeline:
