@@ -5,6 +5,9 @@ This the NCKU course WEB RESOURCE DISCOVERY AND EXPLOITATION homework III, targe
 ![](/image/What%20is%20a%20Web%20Crawler.jpg)
 [image source](https://www.simplilearn.com/what-is-a-web-crawler-article)
 
+## Part of the homework:
+[Medium Article](https://medium.com/@NeroHin/%E7%88%AC%E8%9F%B2%E6%9C%89%E5%B0%88%E6%94%BB-%E5%88%9D%E6%8E%A2-scrapy-%E7%88%AC%E8%9F%B2-%E4%BB%A5%E7%88%AC%E5%8F%96-15-%E8%90%AC%E7%AD%86%E7%B7%9A%E4%B8%8A%E9%86%AB%E7%99%82%E5%92%A8%E8%A9%A2-qa-%E7%82%BA%E4%BE%8B%E5%AD%90-39a6383a2de4)
+
 # Homework Scope
 
 1. **Crawl millions of webpages**
